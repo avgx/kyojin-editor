@@ -1,6 +1,6 @@
 //Задания
 
-import { IdString, TaskType, AudioType, UrlString, TextType, TextContent } from "./types";
+import { IdString, TaskType, AudioType, UrlString, TextType, TextContent, tr_TaskType } from "./types";
 
 //задание / базовый тип
 export type Task = {
@@ -42,8 +42,7 @@ export type TextTask = {
 export type QuickTestTask = {
   id: IdString;
   tasktype: TaskType; //quicktest
-  type: TextType;
-
+  
   title: string;
   brief: string;
   question: Question;
@@ -79,6 +78,31 @@ export type ImageTask = {
   tasktype: TaskType; //image
   title?: string
   brief?: string
-  
+
   image: UrlString;
+}
+
+export function taskDescription(task: Task) {
+  switch (task.tasktype) {
+    case "audio": {
+      const t = task as AudioTask;
+      return `${tr_TaskType(task.tasktype)} ${t.title ?? t.id} (${t.type})`;
+    }
+    case "image": {
+      const t = task as ImageTask;
+      return `${tr_TaskType(task.tasktype)} ${t.title ?? t.id}`;
+    }
+    case "quicktest": {
+      const t = task as QuickTestTask;
+      return `${tr_TaskType(task.tasktype)} ${t.title ?? t.id}`;
+    }
+    case "test": {
+      const t = task as TestTask;
+      return `${tr_TaskType(task.tasktype)} ${t.title ?? t.id}`;
+    }
+    case "text": {
+      const t = task as TextTask;
+      return `${tr_TaskType(task.tasktype)} ${t.title ?? t.id} (${t.type})`;
+    }
+  }
 }

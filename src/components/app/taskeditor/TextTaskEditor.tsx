@@ -1,9 +1,8 @@
-import React, { version } from "react";
-import EditIcon from "@material-ui/icons/Edit";
+import React from 'react';
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Card, CardContent, CardActions, IconButton, Typography, CardHeader, Grid, TextField, MenuItem } from "@material-ui/core";
+import { Card, CardContent, IconButton, Typography, CardHeader, Grid, TextField, MenuItem } from "@material-ui/core";
 import { Task, TextTask } from "../../kyojin/tasks";
-import { IdString, TaskType, TextType, tr_TaskType, UrlString } from "../../kyojin/types";
+import { IdString, TaskType, TextType, tr_TaskType } from "../../kyojin/types";
 
 type Props = {
   id: IdString;
@@ -143,6 +142,9 @@ function TextTaskEditor(props: Props) {
               required
               variant="outlined"
             />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography>TODO: содержание с картинками</Typography>
           </Grid>
         </Grid>
       </CardContent>

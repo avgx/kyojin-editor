@@ -1,14 +1,14 @@
 import React from 'react';
-import { Kyojin, KyojinTypeVersion } from '../kyojin/model';
+import { DayTasks, Kyojin, KyojinTypeVersion } from '../kyojin/model';
 import { v4 as uuidv4 } from "uuid";
 import moment from 'moment';
 import FileSaver from "file-saver";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { IdString, TaskType, UrlString } from '../kyojin/types';
-import { AppBar, Box, Grid, IconButton, Paper, TextField, Toolbar, Tooltip, Typography } from '@material-ui/core';
-import { title } from 'process';
+import { AppBar, Box, Grid, IconButton, TextField, Toolbar, Tooltip, Typography } from '@material-ui/core';
 import GetAppIcon from "@material-ui/icons/GetApp";
 import TaskAdd from './TaskAdd';
+import DayList from './DayList';
 import Raw from './Raw';
 import AudioTaskEditor from './taskeditor/AudioTaskEditor';
 import TextTaskEditor from './taskeditor/TextTaskEditor';
@@ -47,6 +47,9 @@ type Props = {
   onChange: (value: Kyojin) => void;
 };
 
+const emptyDay: DayTasks = {
+  tasks: []
+};
 function KyojinEditor(props: Props) {
   const classes = useStyles();
   const now = new Date();
@@ -57,13 +60,19 @@ function KyojinEditor(props: Props) {
   const [id, setId] = React.useState<string>(editKyojin?.id ?? uuidv4());
   const [revision, setRevision] = React.useState<string>(editKyojin?.revision ?? rev);
   const [name, setName] = React.useState<string | undefined>(editKyojin?.name);
+  const [thumbnail, setThumbnail] = React.useState<UrlString | undefined>(editKyojin?.thumbnail);
   const [image, setImage] = React.useState<UrlString | undefined>(editKyojin?.image);
   const [tasks, setTasks] = React.useState<Task[]>(editKyojin?.tasks ?? []);
+  const [days, setDays] = React.useState<DayTasks[]>(editKyojin?.days ?? [emptyDay]);
 
   //const [description, setDescription] = React.useState<string | undefined>(props.value?.description ?? undefined);
 
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
+    setRevision(moment(new Date()).format("YYYYMMDDTHHmmss"));
+  };
+  const handleChangeThumbnail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setThumbnail(event.target.value);
     setRevision(moment(new Date()).format("YYYYMMDDTHHmmss"));
   };
   const handleChangeImage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,9 +97,41 @@ function KyojinEditor(props: Props) {
     setRevision(moment(new Date()).format("YYYYMMDDTHHmmss"));
   };
 
+  const handleDaysCount = (count: number) => {
+    if(count > days.length) {
+      //add days to array
+      const newDays = days.concat([...Array(count - days.length)].map((_, i) => ({
+        tasks: []
+      })));
+      setDays(newDays);
+    } else {
+      //remove days from array
+      setDays(days.slice(0, count));
+    }
+    //const daysArray = Array.from(Array(count).keys());
+  };
+  const handleAddDayTask = (dayNumber: number, taskId: IdString) => {   
+    setDays(days.map((d, index) => ( index === dayNumber 
+        ? { tasks: d.tasks.filter(t => t !== taskId).concat([taskId]) } 
+        : d
+      ) 
+    ));
+  };
+  const handleRemoveDayTask = (dayNumber: number, taskId: IdString) => {
+    setDays(days.map((d, index) => ( index === dayNumber 
+      ? { tasks: d.tasks.filter(t => t !== taskId) } 
+      : d
+      ) 
+    ));
+  };
+
   const handleClickDownload = () => {
     if (!name) {
       console.log("no name");
+      return;
+    }
+    if (!thumbnail) {
+      console.log("no thumbnail");
       return;
     }
     if (!image) {
@@ -106,8 +147,10 @@ function KyojinEditor(props: Props) {
       id: id,
       revision: rev,
       name: name!,
+      thumbnail: thumbnail!,
       image: image!,
-      tasks: tasks
+      tasks: tasks,
+      days: days
     };
     const kyojinString = JSON.stringify(kyojin, undefined, 2);
 
@@ -127,8 +170,10 @@ function KyojinEditor(props: Props) {
     setId(x.id);
     setRevision(x.revision);
     setName(x.name);
+    setThumbnail(x.thumbnail);
     setImage(x.image);    
     setTasks(x.tasks);    
+    setDays(x.days);    
   };
 
   const now1 = new Date();
@@ -138,8 +183,10 @@ function KyojinEditor(props: Props) {
     id: id,
     revision: rev,
     name: name ?? "",
+    thumbnail: thumbnail ?? "",
     image: image ?? "",
-    tasks: tasks
+    tasks: tasks,
+    days: days
   };
   
   return (
@@ -173,9 +220,9 @@ function KyojinEditor(props: Props) {
         <Grid container spacing={2} alignItems="stretch">
           <Grid item xs={12} key="name">
             <TextField
-              id="title-text"
+              id="name"
               size="small"
-              label="Имя"
+              label="Название курса"
               value={name ?? ""}
               onChange={handleChangeName}
               fullWidth
@@ -185,7 +232,7 @@ function KyojinEditor(props: Props) {
           </Grid>
           <Grid item xs={12} key="version">
             <TextField
-              id="title-text"
+              id="revision"
               size="small"
               label="Версия"
               value={revision ?? ""}
@@ -194,9 +241,21 @@ function KyojinEditor(props: Props) {
               disabled
             />
           </Grid>
+          <Grid item xs={12} key="thumbnail">
+            <TextField
+              id="thumbnail"
+              size="small"
+              label="Thumbnail для списка (ссылка)"
+              value={thumbnail ?? ""}
+              onChange={handleChangeThumbnail}
+              fullWidth
+              required
+              variant="outlined"
+            />
+          </Grid>
           <Grid item xs={12} key="image">
             <TextField
-              id="title-text"
+              id="image"
               size="small"
               label="Изображение (ссылка)"
               value={image ?? ""}
@@ -204,6 +263,16 @@ function KyojinEditor(props: Props) {
               fullWidth
               required
               variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} key="daylist">
+            <DayList 
+              daysCount={days.length}
+              daysArray={days}
+              allTasks={tasks}
+              onDaysCount={handleDaysCount}
+              onAddDayTask={handleAddDayTask}
+              onRemoveDayTask={handleRemoveDayTask}
             />
           </Grid>
           <Grid item xs={12} key="taskadd">

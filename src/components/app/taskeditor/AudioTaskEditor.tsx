@@ -1,7 +1,6 @@
-import React, { version } from "react";
-import EditIcon from "@material-ui/icons/Edit";
+import React from 'react';
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Card, CardContent, CardActions, IconButton, Typography, CardHeader, Grid, TextField, MenuItem } from "@material-ui/core";
+import { Card, CardContent, IconButton, Typography, CardHeader, Grid, TextField, MenuItem } from "@material-ui/core";
 import { AudioTask, Task } from "../../kyojin/tasks";
 import { IdString, TaskType, AudioType, UrlString, tr_TaskType } from "../../kyojin/types";
 

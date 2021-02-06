@@ -1,7 +1,6 @@
-import * as React from "react";
+import React from 'react';
 import CodeIcon from "@material-ui/icons/Code";
 import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from "@material-ui/core";
-import { lang } from "moment";
 
 type Props = {
   isReadonly: boolean;
