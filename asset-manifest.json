@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/kyojin-editor/static/css/main.cb9b5d0c.chunk.css",
+    "main.js": "/kyojin-editor/static/js/main.333b8f7a.chunk.js",
+    "main.js.map": "/kyojin-editor/static/js/main.333b8f7a.chunk.js.map",
+    "runtime-main.js": "/kyojin-editor/static/js/runtime-main.981bcff7.js",
+    "runtime-main.js.map": "/kyojin-editor/static/js/runtime-main.981bcff7.js.map",
+    "static/js/2.de96e3fc.chunk.js": "/kyojin-editor/static/js/2.de96e3fc.chunk.js",
+    "static/js/2.de96e3fc.chunk.js.map": "/kyojin-editor/static/js/2.de96e3fc.chunk.js.map",
+    "static/js/3.ef8ca8d4.chunk.js": "/kyojin-editor/static/js/3.ef8ca8d4.chunk.js",
+    "static/js/3.ef8ca8d4.chunk.js.map": "/kyojin-editor/static/js/3.ef8ca8d4.chunk.js.map",
+    "index.html": "/kyojin-editor/index.html",
+    "static/css/main.cb9b5d0c.chunk.css.map": "/kyojin-editor/static/css/main.cb9b5d0c.chunk.css.map",
+    "static/js/2.de96e3fc.chunk.js.LICENSE.txt": "/kyojin-editor/static/js/2.de96e3fc.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.981bcff7.js",
+    "static/js/2.de96e3fc.chunk.js",
+    "static/css/main.cb9b5d0c.chunk.css",
+    "static/js/main.333b8f7a.chunk.js"
+  ]
+}
