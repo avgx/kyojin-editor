@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/kyojin-editor/static/css/main.cb9b5d0c.chunk.css",
-    "main.js": "/kyojin-editor/static/js/main.3c0b218b.chunk.js",
-    "main.js.map": "/kyojin-editor/static/js/main.3c0b218b.chunk.js.map",
+    "main.js": "/kyojin-editor/static/js/main.7738dc54.chunk.js",
+    "main.js.map": "/kyojin-editor/static/js/main.7738dc54.chunk.js.map",
     "runtime-main.js": "/kyojin-editor/static/js/runtime-main.95027e75.js",
     "runtime-main.js.map": "/kyojin-editor/static/js/runtime-main.95027e75.js.map",
     "static/js/2.9ba9e45f.chunk.js": "/kyojin-editor/static/js/2.9ba9e45f.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.95027e75.js",
     "static/js/2.9ba9e45f.chunk.js",
     "static/css/main.cb9b5d0c.chunk.css",
-    "static/js/main.3c0b218b.chunk.js"
+    "static/js/main.7738dc54.chunk.js"
   ]
 }
